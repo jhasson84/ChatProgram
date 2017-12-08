@@ -23,7 +23,7 @@ def recv_data():
 def send_data():
     "Send data from other clients connected to server"
     while 1:
-        send_data = str(raw_input("Enter data to send (q or Q to quit):"))
+        send_data = str(raw_input("Enter q or Q to quit):"))
         if send_data == "q" or send_data == "Q":
             client_socket.send(send_data)
             thread.interrupt_main()
@@ -33,11 +33,10 @@ def send_data():
         
 if __name__ == "__main__":
 
-    print "*******TCP/IP Chat client program********"
     print "Connecting to server..."
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect((sys.argv[1], int(sys.argv[2])))
+    client_socket.connect(("127.0.0.1", int(sys.argv[2])))
 
     print "Connected to server.."
 

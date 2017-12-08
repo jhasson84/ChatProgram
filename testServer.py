@@ -3,11 +3,12 @@ import select
 import string
 import sys
 
+# adding to allow parameters to be input in command line
+
 
 
 def broadcast_data (sock, message):
-    """Send broadcast message to all clients other than the
-       server socket and the client socket from which the data is received."""
+
     
     for socket in CONNECTION_LIST:
         if socket != server_socket and socket != sock:            
@@ -22,13 +23,13 @@ if __name__ == "__main__":
     # Do basic steps for server like create, bind and listening on the socket
     
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((sys.argv[1], int(sys.argv[2])))
+    server_socket.bind(("127.0.0.1", int(sys.argv[2])))
     server_socket.listen(10)
 
     # Add server socket to the list of readable connections
     CONNECTION_LIST.append(server_socket)
 
-    print "TCP/IP Chat server process started."
+    print "Chat server process started."
 
     while 1:
         # Get the list sockets which are ready to be read through select
@@ -47,8 +48,7 @@ if __name__ == "__main__":
             else:
                 # Data recieved from client, process it
                 try:
-                    #In Windows, sometimes when a TCP program closes abruptly,
-                    # a "Connection reset by peer" exception will be thrown
+
                     data = sock.recv(4096)
                 except:
                     broadcast_data(sock, "Client (%s, %s) is offline" % addr)
